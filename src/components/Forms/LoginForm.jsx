@@ -1,7 +1,10 @@
 import React from 'react';
 import {userService} from '../../services';
+import appContext from '../../stores';
 
 class LoginForm extends React.Component {
+
+    static contextType = appContext;
 
     constructor(props) {
         super(props);
@@ -24,6 +27,7 @@ class LoginForm extends React.Component {
         try {
             const response = await userService.login(email, password);
             localStorage.setItem('token', response.data.token);
+            this.context.login(response.data.token);
             this.props.history.push('/home');
         } catch(e) {
             this.setState({error: e.message});

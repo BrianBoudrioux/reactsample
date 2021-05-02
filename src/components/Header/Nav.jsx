@@ -1,8 +1,12 @@
 import {Link, withRouter} from 'react-router-dom';
+import {useContext} from 'react';
+import appContext from '../../stores'
 
 function Nav(props) {
+    const context = useContext(appContext);
+
     const logout = () => {
-        localStorage.removeItem('token');
+        context.logout();
         props.history.push('/');
     }
 
