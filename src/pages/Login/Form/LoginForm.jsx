@@ -1,5 +1,6 @@
 import React from 'react';
-import {userService} from '../../services';
+import {userService} from '../../../services';
+import Button from '../../../components/Button';
 
 class LoginForm extends React.Component {
 
@@ -35,8 +36,8 @@ class LoginForm extends React.Component {
         <div>
             {this.state.error && <h6>{this.state.error}</h6>}
             <input type="text" name="email" value={this.state.email} onChange={this.handleChange} />
-                <input type="password" name="password" value={this.state.password} onChange={this.handleChange} />
-            <button onClick={this.handleClick}>Se connecter</button>
+            <input type="password" name="password" value={this.state.password} onChange={this.handleChange} />
+            <Button size="small" value="Se connecter" handleClick={this.handleClick} />
         </div>
         )
     }

@@ -1,6 +1,6 @@
 import React from 'react';
 import {articleService} from '../../services';
-import {ItemsList} from '../../components/Items';
+import {ItemsList} from './Items';
 
 class Home extends React.Component {
     constructor(props) {

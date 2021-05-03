@@ -4,7 +4,7 @@ const userService = {
     login: async (email, password) => {
         const user = {email, password};
 
-        return api.post('/users/login', user);
+        return await api.post('/users/login', user);
     },
     // other service method
 }
