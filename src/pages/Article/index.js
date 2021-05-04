@@ -4,9 +4,6 @@ import {articleService} from '../../services';
 class Article extends React.Component {
     constructor(props) {
         super(props)
-
-        if(!localStorage.getItem('token'))
-            props.history.push('/');
         
         this.state = {
             article: null,

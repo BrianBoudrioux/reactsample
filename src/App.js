@@ -3,8 +3,21 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import Article from './pages/Article';
 import {Header} from './pages/partials/Header';
+import appContext from './store';
+import React from 'react';
 
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
+
+const PrivateRoute = ({component: Component, ...rest}) => {
+  const store = React.useContext(appContext);
+  return (
+    <Route {...rest} render={(props) => (
+      store.isAuth
+      ? <Component {...props} />
+      : <Redirect to='/' />
+    )} />
+  );
+}
 
 function App() {
   return (
@@ -12,8 +25,8 @@ function App() {
       <Header />
       <Switch>
         <Route exact path='/' component={Login} />
-        <Route exact path='/home' component={Home} />
-        <Route path='/article/:id' component={Article} />
+        <PrivateRoute exact path='/home' component={Home} />
+        <PrivateRoute path='/article/:id' component={Article} />
       </Switch>
     </Router>
   )

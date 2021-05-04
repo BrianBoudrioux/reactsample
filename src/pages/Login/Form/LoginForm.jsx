@@ -31,7 +31,7 @@ class LoginForm extends React.Component {
             this.context.setAuth(true);
             this.props.history.push('/home');
         } catch(e) {
-            this.setState({error: e.message});
+            this.setState({error: e.response.data.error});
         }
     }
 
@@ -40,7 +40,6 @@ class LoginForm extends React.Component {
         <appContext.Consumer>
         {(store) => (
                     <div>
-                        {console.log(store)}
                         {this.state.error && <h6>{this.state.error}</h6>}
                         <input type="text" name="email" value={this.state.email} onChange={this.handleChange} />
                         <input type="password" name="password" value={this.state.password} onChange={this.handleChange} />

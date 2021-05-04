@@ -17,15 +17,16 @@ class Home extends React.Component {
     }
 
     async componentDidMount() {
-        if (!this.context.isAuth)
-            this.props.history.push('/')
-        else {
-            try{
-                const response = await articleService.getAll();
-                this.setState({articles: response.data.articles});
-            }catch(e) {
-                this.setState({error: e.message});
+        try {
+            const response = await articleService.getAll();
+            this.setState({ articles: response.data.articles });
+        } catch (e) {
+            if (e.response.status === 403) {
+                localStorage.removeItem('token');
+                this.props.history.push('/');
+                this.context.setAuth(false);
             }
+            this.setState({ error: e.message });
         }
     }
 
