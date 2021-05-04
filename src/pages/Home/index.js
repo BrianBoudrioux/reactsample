@@ -1,45 +1,43 @@
-import React from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {articleService} from '../../services';
 import {ItemsList} from './Items';
 import appContext from '../../store';
 
-class Home extends React.Component {
+const Home = (props) => {
 
-    static contextType = appContext;
+    const store = useContext(appContext);
 
-    constructor(props) {
-        super(props)
-        
-        this.state = {
-            articles: [],
-            error: null
-        };
-    }
+    const [articles, setArticles] = useState([]);
+    const [error, setError] = useState(null);
 
-    async componentDidMount() {
-        try {
-            const response = await articleService.getAll();
-            this.setState({ articles: response.data.articles });
-        } catch (e) {
-            if (e.response.status === 403) {
-                localStorage.removeItem('token');
-                this.props.history.push('/');
-                this.context.setAuth(false);
+    useEffect(() => {
+
+        const getArticles = async () => {
+            try {
+                const response = await articleService.getAll();
+                setArticles(response.data.articles);
+            } catch (e) {
+                if (e.response.status === 403) {
+                    localStorage.removeItem('token');
+                    props.history.push('/');
+                    store.setAuth(false);
+                }
+                else
+                    setError(e.response.data.error)
             }
-            this.setState({ error: e.message });
         }
-    }
+        getArticles();
+        
+    }, [props.history, store]);
 
-    render() {
-        const articles = this.state.articles;
-        return (
-            <>
-                {this.state.error && <p>{this.state.error}</p>}
-                <h1>Home page</h1>
-                <ItemsList data={articles} />
-            </>
-        )
-    }
+    return (
+        <>
+            {error && <p>{error}</p>}
+            <h1>Home page</h1>
+            <ItemsList data={articles} />
+        </>
+    )
+
 }
 
 export default Home;
